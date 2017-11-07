@@ -15,7 +15,7 @@ declare module 'react-native-swiper' {
         // Set to false to disable continuous loop mode.
         autoplay?: boolean
         // Called with the new index when the user swiped
-        onIndexChanged?: any
+        onIndexChanged?: (index: number) => void
 
         // Custom basic style & content
         // Set to true enable auto play mode.
@@ -27,9 +27,9 @@ declare module 'react-native-swiper' {
         // Only load current index slide , loadMinimalSize slides before and after.
         loadMinimal?: boolean
         // see loadMinimal
-        loadMinimalSize?: boolean
+        loadMinimalSize?: number
         // Custom loader to display when slides aren't loaded
-        loadMinimalLoader?: boolean
+        loadMinimalLoader?: JSX.Element
 
         // Pagination
         // Set to true make pagination visible.
