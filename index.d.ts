@@ -1,8 +1,8 @@
 declare module 'react-native-swiper' {
-    import { ViewStyle } from 'react-native'
+    import { ViewStyle, ScrollViewProperties } from 'react-native'
     import { Component } from 'react'
 
-    interface SwiperProps {
+    interface SwiperProps extends ScrollViewProperties {
         // Basic
         // If true, the scroll view's children are arranged horizontally in a row instead of vertically in a column.
         horizontal?: boolean
@@ -24,6 +24,8 @@ declare module 'react-native-swiper' {
         height?: number
         // See default style in source.
         style?: ViewStyle
+
+        scrollViewStyle?:ViewStyle;
         // Only load current index slide , loadMinimalSize slides before and after.
         loadMinimal?: boolean
         // see loadMinimal
@@ -98,9 +100,11 @@ declare module 'react-native-swiper' {
         // Set to true if you need adjust content insets automation.
         automaticallyAdjustContentInsets?: boolean
         // Enables/Disables swiping
-        scrollEnabled?: boolean
+        // scrollEnabled?: boolean
+        // canCancelContentTouches?:boolean;
     }
 
     export default class Swiper extends Component<SwiperProps, any> {
+        scrollBy(index: number, animated: boolean): void;
     }
 }

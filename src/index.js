@@ -13,8 +13,10 @@ import {
   TouchableOpacity,
   ViewPagerAndroid,
   Platform,
-  ActivityIndicator
+  ActivityIndicator,
+  GestureResponderEvent
 } from 'react-native'
+import index from 'react-native-fetch-blob';
 
 /**
  * Default styles
@@ -382,27 +384,20 @@ export default class extends Component {
     }
 
     // Deal with paging not correctly snapping to slides in IOS
-    const { dir, width, height } = this.state;
+    const { dir, width, height, offset } = this.state;
     const { contentOffset } = e.nativeEvent;
-
-    if (Platform.OS === "ios") {
-      if (dir === "x") {
-        const remainder = contentOffset.x % width;
-        if (remainder !== 0) {
-          contentOffset.x = contentOffset.x + (width - remainder);
-        }
-      } else if (dir === "y") {
-        const remainder = contentOffset.y % height;
-        if (remainder !== 0) {
-          contentOffset.y = contentOffset.y + (height - remainder);
-        }
-      }
-    }
 
     this.updateIndex(contentOffset, dir, () => {
       this.autoplay()
       this.loopJump()
-
+      if (Platform.OS === "ios") {
+        if (dir === "x") {
+          const offsetPerIndex = contentOffset.x / (this.state.index + 1);
+          if (offsetPerIndex !== width) {
+            this.scrollBy(0, true);
+          }
+        }
+      }
       // if `onMomentumScrollEnd` registered will be called here
       this.props.onMomentumScrollEnd && this.props.onMomentumScrollEnd(e, this.fullState(), this)
     })
@@ -486,6 +481,7 @@ export default class extends Component {
 
   scrollBy = (index, animated = true) => {
     if (this.internals.isScrolling || this.state.total < 2) return
+    console.log(index);
     const state = this.state
     const diff = (this.props.loop ? 1 : 0) + index + this.state.index
     let x = 0
@@ -662,9 +658,7 @@ export default class extends Component {
           onScrollBeginDrag={this.onScrollBegin}
           onMomentumScrollEnd={this.onScrollEnd}
           onScrollEndDrag={this.onScrollEndDrag}
-          style={this.props.scrollViewStyle}
-          pagingEnabled
-          scrollEventThrottle={16}>
+          style={this.props.scrollViewStyle}>
           {pages}
         </ScrollView>
       )
