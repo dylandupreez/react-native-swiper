@@ -426,15 +426,10 @@ export default class extends Component {
    * @param  {string} dir    'x' || 'y'
    */
   updateIndex = (offset, dir, cb) => {
-<<<<<<< HEAD
     const { width, height, total } = this.state
-    let { index } = this.state
-=======
-    const state = this.state
-    let index = state.index
+    let { index } = this.state;
     if (!this.internals.offset)   // Android not setting this onLayout first? https://github.com/leecade/react-native-swiper/issues/582
       this.internals.offset = {}
->>>>>>> e4dbde6657f6c66cba50f8abca7c472b47297c7f
     const diff = offset[dir] - this.internals.offset[dir]
     const step = dir === 'x' ? width : height
     let loopJump = false
