@@ -15,7 +15,7 @@ import {
   ActivityIndicator,
   GestureResponderEvent
 } from 'react-native'
-import index from 'react-native-fetch-blob';
+
 
 /**
  * Default styles
